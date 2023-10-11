@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState } from "react";
 
 const priceTable = {
@@ -61,24 +62,22 @@ class Order {
 }
 
 export default function App() {
-  const [order, setOrder] = useState(orderList[0]);
+  const [products, setProducts] = useState(orderList[0]);
+  function handleAddProduct(p) {
+    setProducts([...products, p]);
+  }
+
   return (
     <div>
       <h1>CHỐT ĐƠN</h1>
-      <OrderTable />
-      <button>Add</button>
+      <OrderTable products={products} />
+      <Form onAddProduct={handleAddProduct}></Form>
       <button>Confirm</button>
     </div>
   );
 }
 
-function OrderTable() {
-  const [products, setProduct] = useState(orderList[0]);
-  const [boxQuantity, setBoxQuantity] = useState(1);
-
-  function handleAddProduct(p) {
-    setProduct((p) => [...products, p]);
-  }
+function OrderTable({ products }) {
   return (
     <table>
       <thead>
@@ -100,43 +99,60 @@ function OrderTable() {
             </tr>
           );
         })}
-        <tr>
-          <td>
-            <select>
-              <option value="BAY">BAY</option>
-              <option value="BB702">BB702</option>
-              <option value="MATCHA">MATCHA</option>
-              <option value="HAPPYLIFE">HAPPYLIFE</option>
-              <option value="SALTED">SALTED</option>
-            </select>
-          </td>
-          <td>
-            <input
-              type="number"
-              className="add-product"
-              name="boxQuantity"
-              value={boxQuantity}
-              onChange={(e) => {
-                console.log(e.target.value);
-              }}
-            ></input>
-          </td>
-          <td>
-            <input
-              type="number"
-              className="add-product"
-              name="packQuantity"
-            ></input>
-          </td>
-          <td>
-            <input
-              type="number"
-              className="add-product"
-              name="giveAway"
-            ></input>
-          </td>
-        </tr>
       </tbody>
     </table>
+  );
+}
+
+function Form({ products, onAddProduct }) {
+  const [productName, setProductName] = useState("BAY");
+  const [boxQuantity, setBoxQuantity] = useState(1);
+  const [packQuantity, setPackQuantity] = useState(0);
+  const [giveAway, setGiveAway] = useState(0);
+  return (
+    <>
+      <select onChange={(e) => setProductName(e.target.value)}>
+        <option value="BAY">BAY</option>
+        <option value="BB702">BB702</option>
+        <option value="MATCHA">MATCHA</option>
+        <option value="HAPPYLIFE">HAPPYLIFE</option>
+        <option value="SALTED">SALTED</option>
+      </select>
+      <input
+        type="number"
+        className="add-product"
+        name="boxQuantity"
+        value={boxQuantity}
+        onChange={(e) => {
+          setBoxQuantity(e.target.value);
+        }}
+      ></input>
+      <input
+        type="number"
+        className="add-product"
+        name="packQuantity"
+        value={packQuantity}
+        onChange={(e) => {
+          setPackQuantity(e.target.value);
+        }}
+      ></input>
+      <input
+        type="number"
+        className="add-product"
+        name="giveAway"
+        value={giveAway}
+        onChange={(e) => {
+          setGiveAway(e.target.value);
+        }}
+      ></input>
+      <button
+        onClick={() => {
+          const product = { productName, boxQuantity, packQuantity, giveAway };
+          onAddProduct(product);
+        }}
+      >
+        Add
+      </button>
+    </>
   );
 }
