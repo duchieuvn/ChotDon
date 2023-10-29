@@ -23,7 +23,7 @@ const orderInfo = {
     { productName: "MATCHA", boxQuantity: 0, packQuantity: 0, giveAway: 3 },
   ],
 };
-const orderList = [
+const sampleList = [
   [
     { productName: "BAY", boxQuantity: 1, packQuantity: 0, giveAway: 0 },
     { productName: "BB702", boxQuantity: 0, packQuantity: 2, giveAway: 0 },
@@ -49,6 +49,8 @@ export default function App() {
   const [availableProducts, setAvailableProducts] = useState(
     Object.keys(priceTable)
   );
+
+  const [orderList, setOrderList] = useState([]);
   return (
     <div>
       <h1>CHỐT ĐƠN</h1>
@@ -65,8 +67,16 @@ export default function App() {
           onSetAvailableProducts={setAvailableProducts}
         ></OrderInput>
       </OrderTable>
-      <button>Confirm</button>
-      <StatsTable></StatsTable>
+      <button
+        onClick={() => {
+          setOrderList([...orderList, products]);
+        }}
+      >
+        CHỐT ĐƠN
+      </button>
+
+      <h2>BẢNG THỐNG KÊ</h2>
+      <StatsTable orderList={orderList} />
     </div>
   );
 }

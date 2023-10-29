@@ -1,4 +1,19 @@
-export default function StatsTable() {
+export default function StatsTable({ orderList }) {
+  console.log(orderList);
+  const sum = {
+    BAY: 0,
+    BB702: 0,
+    MATCHA: 0,
+    HAPPYLIFE: 0,
+    SALTED: 0,
+  };
+  orderList.forEach((order) => {
+    order.forEach((product) => {
+      const pName = product.productName;
+      const quantity = product.boxQuantity;
+      sum[pName] += Number(quantity);
+    });
+  });
   return (
     <table>
       <thead>
@@ -10,7 +25,16 @@ export default function StatsTable() {
           <th>Delete</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        {Object.keys(sum).map((pName) => {
+          return (
+            <tr key={pName}>
+              <td>{pName}</td>
+              <td>{sum[pName]}</td>
+            </tr>
+          );
+        })}
+      </tbody>
     </table>
   );
 }

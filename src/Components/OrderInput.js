@@ -77,7 +77,7 @@ export default function OrderInput(props) {
                 handleAddProduct(product);
               }}
             >
-              Add
+              Thêm
             </button>
           </td>
         </tr>
