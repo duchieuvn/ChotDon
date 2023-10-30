@@ -3,6 +3,7 @@ import { useState } from "react";
 import OrderTable from "./OrderTable";
 import OrderInput from "./OrderInput";
 import StatsTable from "./StatsTable";
+import styles from "./Container.module.css";
 
 export const priceTable = {
   BAY: { inPrice: 117, boxPrice: 135, packPrice: 16 },
@@ -12,38 +13,6 @@ export const priceTable = {
   SALTED: { inPrice: 117, boxPrice: 135, packPrice: 16 },
 };
 
-const orderInfo = {
-  customer: "Duy Nguyen",
-  destination: "KTX khu B",
-  time: "20:00:00",
-
-  products: [
-    { productName: "BAY", boxQuantity: 1, packQuantity: 0, giveAway: 0 },
-    { productName: "BB702", boxQuantity: 0, packQuantity: 2, giveAway: 0 },
-    { productName: "MATCHA", boxQuantity: 0, packQuantity: 0, giveAway: 3 },
-  ],
-};
-const sampleList = [
-  [
-    { productName: "BAY", boxQuantity: 1, packQuantity: 0, giveAway: 0 },
-    { productName: "BB702", boxQuantity: 0, packQuantity: 2, giveAway: 0 },
-    { productName: "MATCHA", boxQuantity: 0, packQuantity: 0, giveAway: 3 },
-  ],
-  [
-    { productName: "BAY", boxQuantity: 0, packQuantity: 2, giveAway: 0 },
-    { productName: "BB702", boxQuantity: 1, packQuantity: 0, giveAway: 0 },
-    { productName: "MATCHA", boxQuantity: 0, packQuantity: 2, giveAway: 0 },
-  ],
-  [
-    { productName: "BB702", boxQuantity: 1, packQuantity: 0, giveAway: 0 },
-    { productName: "SALTED", boxQuantity: 0, packQuantity: 1, giveAway: 1 },
-  ],
-  [
-    { productName: "MATCHA", boxQuantity: 2, packQuantity: 0, giveAway: 0 },
-    { productName: "HAPPYLIFE", boxQuantity: 0, packQuantity: 0, giveAway: 2 },
-  ],
-];
-
 export default function App() {
   const [products, setProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState(
@@ -52,7 +21,7 @@ export default function App() {
 
   const [orderList, setOrderList] = useState([]);
   return (
-    <div>
+    <div className={styles.container}>
       <h1>CHỐT ĐƠN</h1>
       <OrderTable
         products={products}
@@ -66,14 +35,14 @@ export default function App() {
           availableProducts={availableProducts}
           onSetAvailableProducts={setAvailableProducts}
         ></OrderInput>
+        <button
+          onClick={() => {
+            setOrderList([...orderList, products]);
+          }}
+        >
+          CHỐT ĐƠN
+        </button>
       </OrderTable>
-      <button
-        onClick={() => {
-          setOrderList([...orderList, products]);
-        }}
-      >
-        CHỐT ĐƠN
-      </button>
 
       <h2>BẢNG THỐNG KÊ</h2>
       <StatsTable orderList={orderList} />
