@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function StatsTable({ orderList }) {
   console.log(orderList);
   const sum = {
