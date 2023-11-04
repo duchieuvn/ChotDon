@@ -1,5 +1,4 @@
 export default function StatsTable({ orderList }) {
-  console.log(orderList);
   const sum = {
     BAY: 0,
     BB702: 0,

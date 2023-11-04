@@ -1,9 +1,6 @@
-import "./App.css";
 import { useState } from "react";
-import OrderTable from "./OrderTable";
-import OrderInput from "./OrderInput";
-import StatsTable from "./StatsTable";
-import styles from "./Container.module.css";
+import ProductTable from "./ProductTable";
+import ProductInput from "./ProductInput";
 
 export const priceTable = {
   BAY: { inPrice: 117, boxPrice: 135, packPrice: 16 },
@@ -13,39 +10,37 @@ export const priceTable = {
   SALTED: { inPrice: 117, boxPrice: 135, packPrice: 16 },
 };
 
-export default function App() {
+function Order({ orderList, onSetOrderList }) {
   const [products, setProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState(
     Object.keys(priceTable)
   );
 
-  const [orderList, setOrderList] = useState([]);
   return (
-    <div className={styles.container}>
-      <h1>CHỐT ĐƠN</h1>
-      <OrderTable
+    <div>
+      <ProductTable
         products={products}
         onSetProducts={setProducts}
         availableProducts={availableProducts}
         onSetAvailableProducts={setAvailableProducts}
       >
-        <OrderInput
+        <ProductInput
           products={products}
           onSetProducts={setProducts}
           availableProducts={availableProducts}
           onSetAvailableProducts={setAvailableProducts}
-        ></OrderInput>
-        <button
-          onClick={() => {
-            setOrderList([...orderList, products]);
-          }}
-        >
-          CHỐT ĐƠN
-        </button>
-      </OrderTable>
+        ></ProductInput>
+      </ProductTable>
 
-      <h2>BẢNG THỐNG KÊ</h2>
-      <StatsTable orderList={orderList} />
+      <button
+        onClick={() => {
+          onSetOrderList([...orderList, products]);
+        }}
+      >
+        CHỐT ĐƠN
+      </button>
     </div>
   );
 }
+
+export default Order;

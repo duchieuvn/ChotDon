@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-export default function OrderTable(props) {
+function ProductTable(props) {
   const {
     products,
     onSetProducts,
@@ -15,7 +13,7 @@ export default function OrderTable(props) {
   }
 
   return (
-    <>
+    <div>
       <table>
         <thead>
           <tr>
@@ -36,6 +34,7 @@ export default function OrderTable(props) {
                 <td>{item.giveAway}</td>
                 <td>
                   <button
+                    type="button"
                     onClick={() => {
                       handleDelete(item.productName);
                     }}
@@ -49,6 +48,8 @@ export default function OrderTable(props) {
           {children}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
+
+export default ProductTable;

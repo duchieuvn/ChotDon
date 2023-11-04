@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function OrderInput(props) {
+function ProductInput(props) {
   const { products, onSetProducts, availableProducts, onSetAvailableProducts } =
     { ...props };
   const [productName, setProductName] = useState(availableProducts[0]);
@@ -22,7 +22,10 @@ export default function OrderInput(props) {
       {!!availableProducts.length && (
         <tr>
           <td>
-            <select onChange={(e) => setProductName(e.target.value)}>
+            <select
+              name="productName"
+              onChange={(e) => setProductName(e.target.value)}
+            >
               {availableProducts.map((item) => {
                 return (
                   <option key={item} value={item}>
@@ -35,6 +38,7 @@ export default function OrderInput(props) {
           <td>
             <input
               type="number"
+              min={0}
               className="add-product"
               name="boxQuantity"
               value={boxQuantity}
@@ -46,6 +50,7 @@ export default function OrderInput(props) {
           <td>
             <input
               type="number"
+              min={0}
               className="add-product"
               name="packQuantity"
               value={packQuantity}
@@ -57,6 +62,7 @@ export default function OrderInput(props) {
           <td>
             <input
               type="number"
+              min={0}
               className="add-product"
               name="giveAway"
               value={giveAway}
@@ -67,6 +73,7 @@ export default function OrderInput(props) {
           </td>
           <td>
             <button
+              type="button"
               onClick={() => {
                 const product = {
                   productName,
@@ -85,3 +92,5 @@ export default function OrderInput(props) {
     </>
   );
 }
+
+export default ProductInput;
