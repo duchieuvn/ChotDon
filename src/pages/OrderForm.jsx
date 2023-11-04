@@ -1,12 +1,12 @@
 import NavBar from "../components/NavBar";
 
-function OrderPage() {
+function OrderForm() {
   return (
     <div>
       <NavBar />
-      <h1>OrderPage</h1>
+      <h1>TẠO ĐƠN HÀNG</h1>
     </div>
   );
 }
 
-export default OrderPage;
+export default OrderForm;
