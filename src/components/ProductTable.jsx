@@ -1,14 +1,17 @@
-function ProductTable(props) {
-  const {
-    products,
-    onSetProducts,
-    availableProducts,
-    onSetAvailableProducts,
-    children,
-  } = { ...props };
+import { useState } from "react";
+
+function ProductTable({ children }) {
+  // const {
+  //   products,
+  //   onSetProducts: setProducts,
+  //   availableProducts,
+  //   onSetAvailableProducts,
+  //   children,
+  // } = { ...props };
+  const [products, setProducts] = useState([]);
   function handleDelete(productName) {
     const remainProducts = products.filter((p) => p.productName != productName);
-    onSetProducts(remainProducts);
+    setProducts(remainProducts);
     onSetAvailableProducts([...availableProducts, productName]);
   }
 

@@ -1,10 +1,10 @@
 export default function StatsTable({ orderList }) {
   const sum = {
-    BAY: 0,
-    BB702: 0,
+    BAY: 2,
+    BB702: 7,
     MATCHA: 0,
     HAPPYLIFE: 0,
-    SALTED: 0,
+    SALTED: 1,
   };
   orderList.forEach((order) => {
     order.forEach((product) => {
@@ -17,11 +17,8 @@ export default function StatsTable({ orderList }) {
     <table>
       <thead>
         <tr>
-          <th>Loại</th>
-          <th>Đơn hộp</th>
-          <th>Đơn lẻ</th>
-          <th>Khuyến mãi</th>
-          <th>Delete</th>
+          <th>Tên SP</th>
+          <th>Số lượng</th>
         </tr>
       </thead>
       <tbody>

@@ -4,8 +4,7 @@ function OrderList({ orderList }) {
   return (
     <div>
       {orderList.map((order) => {
-        console.log(order);
-        return <OrderCard order={order}></OrderCard>;
+        return <OrderCard order={order.products}></OrderCard>;
       })}
     </div>
   );
