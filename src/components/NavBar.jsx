@@ -5,11 +5,10 @@ function NavBar() {
     <nav>
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">Shop của tôi</NavLink>
         </li>
-
         <li>
-          <NavLink to="/order">Order List</NavLink>
+          <NavLink to="/order">Đơn Hàng</NavLink>
         </li>
         <li>
           <NavLink to="/order/form">Tạo Đơn Hàng</NavLink>

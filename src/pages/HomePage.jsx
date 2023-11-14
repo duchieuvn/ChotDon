@@ -6,7 +6,7 @@ function HomePage() {
   return (
     <div>
       <NavBar />
-      <h1>HOMEPAGE</h1>
+      <h1>TỔNG QUAN</h1>
       <div>
         <h2>BẢNG THỐNG KÊ</h2>
         <StatsTable orderList={[]} />

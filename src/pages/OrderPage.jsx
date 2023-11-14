@@ -1,44 +1,32 @@
 import NavBar from "../components/NavBar";
 import OrderList from "../components/OrderList";
+import { getOrders } from "../services/apiOrders";
+import { useQuery } from "@tanstack/react-query";
 
-const orderList = [
-  {
-    products: [
-      { productName: "BAY", boxQuantity: 1, giveAway: 0 },
-      { productName: "BB702", boxQuantity: 0, giveAway: 0 },
-      { productName: "MATCHA", boxQuantity: 0, giveAway: 3 },
-    ],
-  },
-  {
-    products: [
-      { productName: "BAY", boxQuantity: 1, giveAway: 0 },
-      { productName: "BB702", boxQuantity: 0, giveAway: 0 },
-      { productName: "MATCHA", boxQuantity: 0, giveAway: 3 },
-    ],
-  },
-  {
-    products: [
-      { productName: "BAY", boxQuantity: 1, giveAway: 0 },
-      { productName: "BB702", boxQuantity: 0, giveAway: 0 },
-      { productName: "MATCHA", boxQuantity: 0, giveAway: 3 },
-    ],
-  },
-  {
-    products: [
-      { productName: "BAY", boxQuantity: 1, giveAway: 0 },
-      { productName: "BB702", boxQuantity: 0, giveAway: 0 },
-      { productName: "MATCHA", boxQuantity: 0, giveAway: 3 },
-    ],
-  },
-];
 function OrderPage() {
-  return (
-    <div>
-      <NavBar />
-      <h1>OrderPage</h1>
-      <OrderList orderList={orderList}></OrderList>
-    </div>
-  );
+  const {
+    isLoading,
+    data: orders,
+    error,
+  } = useQuery({
+    queryKey: ["order"],
+    queryFn: getOrders,
+  });
+
+  if (isLoading) {
+    console.log("loading orders");
+  } else {
+    console.log(orders);
+    return (
+      <div>
+        <NavBar />
+        <h1>ĐƠN HÀNG</h1>
+        <OrderList orderList={orders}></OrderList>
+      </div>
+    );
+  }
+
+  return <></>;
 }
 
 export default OrderPage;

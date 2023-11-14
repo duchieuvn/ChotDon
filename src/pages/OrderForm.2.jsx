@@ -1,13 +1,12 @@
 import NavBar from "../components/NavBar";
-
 import Button from "@mui/material/Button";
-import { TextField } from "@mui/material";
+import { MenuItem, Select, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createOneOrder } from "../services/apiOrders";
-import OrderProductsInput from "../components/OrderProductsInput";
+import { getProducts } from "../services/apiProducts";
 
-function OrderForm() {
+export function OrderForm() {
   // const [products, setProducts] = useState([]);
   // const handleDelete = (productName) => {
   //   const remainProducts = products.filter((p) => p.productName != productName);
@@ -26,6 +25,20 @@ function OrderForm() {
     console.log("data");
     console.log(data);
     mutate(data);
+  }
+
+  const {
+    isLoading,
+    data: products,
+    error,
+  } = useQuery({
+    queryKey: ["product"],
+    queryFn: getProducts,
+  });
+
+  if (!isLoading) {
+    console.log("---product");
+    console.log(products);
   }
 
   const { register, handleSubmit } = useForm();
@@ -56,7 +69,29 @@ function OrderForm() {
             {...register("location")}
           />
         </div>
-        <OrderProductsInput />
+        {/* <div>
+              <h3>Sản phẩm</h3>
+              <input
+                type="hidden"
+                name="productCart"
+                value={JSON.stringify(products)}
+              ></input>
+              {products.map((p) => {
+                return <OrderProductCard product={p}></OrderProductCard>;
+              })}
+              <OrderAddProductCard
+                products={products}
+                setProducts={setProducts}
+                inputMode={true}
+              ></OrderAddProductCard>
+              <label htmlFor="ship">Phí ship:</label>
+              <input name="ship"></input>
+            </div> */}
+        <Select labelId="product_name" id="demo-simple-select" label="Age">
+          {products.map((p) => {
+            return <MenuItem value={p.name}>{p.name}</MenuItem>;
+          })}
+        </Select>
         <Button type="submit" variant="contained">
           Chốt đơn
         </Button>
@@ -65,5 +100,3 @@ function OrderForm() {
     </div>
   );
 }
-
-export default OrderForm;

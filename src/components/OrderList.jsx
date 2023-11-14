@@ -1,12 +1,13 @@
 import OrderCard from "./OrderCard";
 
 function OrderList({ orderList }) {
+  console.log(orderList);
   return (
-    <div>
+    <>
       {orderList.map((order) => {
-        return <OrderCard order={order.products}></OrderCard>;
+        return <OrderCard order={order} key={order.id}></OrderCard>;
       })}
-    </div>
+    </>
   );
 }
 
