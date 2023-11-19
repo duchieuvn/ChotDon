@@ -1,47 +1,134 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../services/apiProducts";
-import { MenuItem, Select } from "@mui/material";
+import { InputLabel, MenuItem, Select, Stack } from "@mui/material";
+import { useState } from "react";
 
-function OrderProductsInput() {
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+function OrderProductsInput({ addedProducts, setAddedProducts }) {
   const {
     isLoading,
-    data: products,
+    data: avaibleProducts,
     error,
   } = useQuery({
     queryKey: ["product"],
     queryFn: getProducts,
   });
+  const [currentProduct, setCurrentProduct] = useState({
+    quantity: 1,
+  });
 
-  if (!isLoading) {
-    console.log("---product");
-    console.log(products);
+  function handleSelectProduct(e) {
+    const value = e.target.value;
+
+    setCurrentProduct({
+      ...currentProduct,
+      id: value.id,
+      name: value.name,
+      retail_price: value.retail_price,
+    });
   }
 
+  function handleSelectQuantity(e) {
+    setCurrentProduct({
+      ...currentProduct,
+      quantity: e.target.value,
+    });
+  }
+
+  function handleRemoveProduct(productId) {
+    const remainProducts = addedProducts.filter((p) => p.id != productId);
+    setAddedProducts(remainProducts);
+  }
   return (
-    <Select id="product_name">
-      {products?.map((p) => {
-        return <MenuItem value={p.name}>{p.name}</MenuItem>;
-      })}
-    </Select>
+    <Stack
+      sx={{
+        width: "50%",
+      }}
+      spacing={2}
+    >
+      <h3>Sản phẩm</h3>
+      <TableContainer>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Tên sản phẩm</TableCell>
+              <TableCell align="right">Số lượng</TableCell>
+              <TableCell align="right">Giá bán</TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {addedProducts?.map((addedP) => {
+              return (
+                <TableRow key={addedP.id}>
+                  <TableCell>{addedP.name}</TableCell>
+                  <TableCell align="right">{addedP.quantity}</TableCell>
+                  <TableCell align="right">{addedP.retail_price}</TableCell>
+                  <TableCell>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleRemoveProduct(addedP.id);
+                      }}
+                    >
+                      x
+                    </button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+            {/* -------------------------INPUT------------------------ */}
+
+            <TableRow>
+              <TableCell>
+                <Select
+                  value={currentProduct.name}
+                  onChange={handleSelectProduct}
+                  sx={{
+                    width: "200px",
+                  }}
+                  variant="standard"
+                >
+                  {avaibleProducts?.map((p) => {
+                    return (
+                      <MenuItem key={p.name} value={p}>
+                        {p.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </TableCell>
+              <TableCell align="right">
+                <input
+                  type="number"
+                  min={1}
+                  value={currentProduct.quantity}
+                  onChange={handleSelectQuantity}
+                />
+              </TableCell>
+              <TableCell align="right">{currentProduct.retail_price}</TableCell>
+              <TableCell>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAddedProducts([...addedProducts, currentProduct]);
+                  }}
+                >
+                  +
+                </button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Stack>
   );
-  <div>
-    <h3>Sản phẩm</h3>
-    <input
-      type="hidden"
-      name="productCart"
-      value={JSON.stringify(products)}
-    ></input>
-    {products.map((p) => {
-      return <OrderProductCard product={p}></OrderProductCard>;
-    })}
-    <OrderAddProductCard
-      products={products}
-      setProducts={setProducts}
-      inputMode={true}
-    ></OrderAddProductCard>
-    <label htmlFor="ship">Phí ship:</label>
-    <input name="ship"></input>
-  </div>;
 }
 
 export default OrderProductsInput;

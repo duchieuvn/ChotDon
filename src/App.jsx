@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import "./components/App.css";
+import "./styles/App.css";
 import AppLayout from "./pages/AppLayout";
 import HomePage from "./pages/HomePage";
 import OrderForm from "./pages/OrderForm";

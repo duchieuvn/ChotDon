@@ -1,19 +1,16 @@
 import NavBar from "../components/NavBar";
 
 import Button from "@mui/material/Button";
-import { TextField } from "@mui/material";
+import { Container, Divider, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createOneOrder } from "../services/apiOrders";
 import OrderProductsInput from "../components/OrderProductsInput";
+import OrderCustomerInput from "../components/OrderCustomerInput";
 
 function OrderForm() {
-  // const [products, setProducts] = useState([]);
-  // const handleDelete = (productName) => {
-  //   const remainProducts = products.filter((p) => p.productName != productName);
-  //   setProducts(remainProducts);
-  //   onSetAvailableProducts([...availableProducts, productName]);
-  // };
   const queryClient = useQueryClient();
   const { mutate, isLoading: isCreating } = useMutation({
     mutationFn: createOneOrder,
@@ -22,47 +19,47 @@ function OrderForm() {
       alert("Order created");
     },
   });
+  const [addedProducts, setAddedProducts] = useState([]);
+
   function onSubmit(data) {
-    console.log("data");
+    console.log("------form data---------");
     console.log(data);
-    mutate(data);
+    // mutate(data);
   }
 
-  const { register, handleSubmit } = useForm();
+  console.log("Products in Cart:");
+  console.log(addedProducts);
+  console.log(JSON.stringify(addedProducts));
 
+  const { register, handleSubmit } = useForm();
   return (
-    <div>
+    <>
       <NavBar />
-      <h1>TẠO ĐƠN HÀNG</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h3>Thông tin người nhận</h3>
-          <TextField
-            id="customer_name"
-            label="Tên người nhận"
-            variant="standard"
-            {...register("customer_name")}
+      <Container maxWidth="xl">
+        <Stack marginY={1}>
+          <h2>Tạo đơn hàng</h2>
+        </Stack>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack direction="row" spacing={2}>
+            <OrderCustomerInput register={register} />
+            <Divider orientation="vertical" flexItem />
+            <OrderProductsInput
+              addedProducts={addedProducts}
+              setAddedProducts={setAddedProducts}
+            />
+          </Stack>
+          <input
+            name="products"
+            type="hidden"
+            value={JSON.stringify(addedProducts)}
+            {...register("products")}
           />
-          <TextField
-            id="phone_number"
-            label="Số điện thoại"
-            variant="standard"
-            {...register("phone_number")}
-          />
-          <TextField
-            id="location"
-            label="Địa chỉ"
-            variant="standard"
-            {...register("location")}
-          />
-        </div>
-        <OrderProductsInput />
-        <Button type="submit" variant="contained">
-          Chốt đơn
-        </Button>
-        ;
-      </form>
-    </div>
+          <Button type="submit" variant="contained">
+            Chốt đơn
+          </Button>
+        </form>
+      </Container>
+    </>
   );
 }
 

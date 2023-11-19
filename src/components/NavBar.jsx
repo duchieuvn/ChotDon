@@ -1,19 +1,24 @@
+import { Container, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import "../styles/NavBar.css";
 
 function NavBar() {
   return (
     <nav>
-      <ul>
-        <li>
-          <NavLink to="/">Shop của tôi</NavLink>
-        </li>
-        <li>
-          <NavLink to="/order">Đơn Hàng</NavLink>
-        </li>
-        <li>
-          <NavLink to="/order/form">Tạo Đơn Hàng</NavLink>
-        </li>
-      </ul>
+      <Container maxWidth="xl">
+        <Stack direction="row" spacing={3} paddingY={2}>
+          <img src="../public/logo.png" height="30px" />
+          <NavLink className="navLink" to="/">
+            Shop của tôi
+          </NavLink>
+          <NavLink className="navLink" to="/order">
+            Đơn hàng
+          </NavLink>
+          <NavLink className="navLink" to="/order/form">
+            Tạo đơn hàng
+          </NavLink>
+        </Stack>
+      </Container>
     </nav>
   );
 }
